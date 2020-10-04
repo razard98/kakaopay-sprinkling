@@ -26,7 +26,7 @@
 # DB Schema
 * 1:N
 
-![sprinkling_diagram](https://user-images.githubusercontent.com/33849726/95013636-975b8180-067c-11eb-938b-d9e6f63cb804.png)
+![db-diagram](https://user-images.githubusercontent.com/33849726/95014558-a80ef600-0682-11eb-9065-84c068b1c632.png)
 
 # REST API
 

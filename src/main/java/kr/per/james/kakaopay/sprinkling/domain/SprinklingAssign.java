@@ -2,6 +2,7 @@ package kr.per.james.kakaopay.sprinkling.domain;
 
 import kr.per.james.kakaopay.sprinkling.constant.AssignStatus;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
-@ToString
+@DynamicUpdate
 @Table(name = "sprinkling_assign")
 public class SprinklingAssign {
     @Id
@@ -39,6 +40,10 @@ public class SprinklingAssign {
 
     @Column(name = "assigned_at")
     private LocalDateTime assignedAt;
+
+    @Version
+    @Column(name = "VERSION")
+    private int version;
 
     public SprinklingAssign(final Integer userId, final BigDecimal amount) {
         this.amount = amount;
