@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(SprinklingApiController.class)
-@DisplayName("GlobalException")
+@DisplayName("예외처리테스트")
 class GlobalExceptionHandlerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -43,6 +43,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("뿌린 사람 자신만 조회를 할 수 있습니다.")
     void handleInquiryForbiddenException() throws Exception {
         //given
         //when
@@ -59,6 +60,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("뿌린 건에 대한 조회는 7일 동안 할 수 있습니다.")
     void handleExpiredInquiryException() throws Exception {
         //given
         //when
@@ -76,6 +78,7 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("받을 사용자 수가 뿌릴 금액 보다 클 수는 없습니다.")
     void handleIllegalArgumentException() throws Exception {
         //when
         when(sprinklingApiController.assignSprinkling(any(Integer.class), any(String.class), any(String.class)))
@@ -91,13 +94,14 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("뿌리기가 호출된 대화방과 동일한 대화방에 속한 사용자만 받을 수 있습니다.")
     void handleNotBelongRoomException() throws Exception {
         //given
         //when
-        when(sprinklingApiController.inquireSprinkling(any(Integer.class), any(String.class), any(String.class)))
+        when(sprinklingApiController.assignSprinkling(any(Integer.class), any(String.class), any(String.class)))
                 .thenThrow(new NotBelongRoomException());
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/sprinkling/tokens/{token}", token)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/sprinkling/tokens/{token}", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(Headers.X_ROOMS_ID, roomId)
                 .header(Headers.X_USER_ID, userId))
@@ -107,13 +111,14 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("뿌린 건은 10분간만 유효합니다.")
     void handleExpiredSprinklingException() throws Exception {
         //given
         //when
-        when(sprinklingApiController.inquireSprinkling(any(Integer.class), any(String.class), any(String.class)))
+        when(sprinklingApiController.assignSprinkling(any(Integer.class), any(String.class), any(String.class)))
                 .thenThrow(new ExpiredSprinklingException());
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/sprinkling/tokens/{token}", token)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/sprinkling/tokens/{token}", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(Headers.X_ROOMS_ID, roomId)
                 .header(Headers.X_USER_ID, userId))
@@ -123,13 +128,14 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("뿌리기 당 한번만 받을 수 있습니다.")
     void handleAlreadyAssignedException() throws Exception {
         //given
         //when
-        when(sprinklingApiController.inquireSprinkling(any(Integer.class), any(String.class), any(String.class)))
+        when(sprinklingApiController.assignSprinkling(any(Integer.class), any(String.class), any(String.class)))
                 .thenThrow(new AlreadyAssignedException());
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/sprinkling/tokens/{token}", token)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/sprinkling/tokens/{token}", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(Headers.X_ROOMS_ID, roomId)
                 .header(Headers.X_USER_ID, userId))
@@ -139,13 +145,14 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("뿌리기가 모두 완료 되어, 받기에 실패하였습니다.")
     void handleSprinklingCompletedException() throws Exception {
         //given
         //when
-        when(sprinklingApiController.inquireSprinkling(any(Integer.class), any(String.class), any(String.class)))
+        when(sprinklingApiController.assignSprinkling(any(Integer.class), any(String.class), any(String.class)))
                 .thenThrow(new SprinklingCompletedException());
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/sprinkling/tokens/{token}", token)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/sprinkling/tokens/{token}", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(Headers.X_ROOMS_ID, roomId)
                 .header(Headers.X_USER_ID, userId))
@@ -155,13 +162,14 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    @DisplayName("자신이 뿌리기한 건은 자신이 받을 수 없습니다.")
     void handleSelfAssignedException() throws Exception {
         //given
         //when
-        when(sprinklingApiController.inquireSprinkling(any(Integer.class), any(String.class), any(String.class)))
+        when(sprinklingApiController.assignSprinkling(any(Integer.class), any(String.class), any(String.class)))
                 .thenThrow(new SelfAssignedException());
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/sprinkling/tokens/{token}", token)
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/sprinkling/tokens/{token}", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .header(Headers.X_ROOMS_ID, roomId)
                 .header(Headers.X_USER_ID, userId))

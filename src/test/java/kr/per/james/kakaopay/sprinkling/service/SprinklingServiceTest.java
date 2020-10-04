@@ -1,8 +1,10 @@
 package kr.per.james.kakaopay.sprinkling.service;
 
+import kr.per.james.kakaopay.sprinkling.constant.AssignStatus;
 import kr.per.james.kakaopay.sprinkling.domain.SprinklingAssign;
 import kr.per.james.kakaopay.sprinkling.domain.SprinklingOrder;
 import kr.per.james.kakaopay.sprinkling.exception.*;
+import kr.per.james.kakaopay.sprinkling.repository.SprinklingAssignRepository;
 import kr.per.james.kakaopay.sprinkling.repository.SprinklingOrderRepository;
 import kr.per.james.kakaopay.sprinkling.service.impl.SprinklingServiceImpl;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,6 +31,9 @@ class SprinklingServiceTest {
 
     @Mock
     private SprinklingOrderRepository sprinklingOrderRepository;
+
+    @Mock
+    private SprinklingAssignRepository sprinklingAssignRepository;
 
     private static final int userId = 1;
     private static final String roomId = "room-01";
@@ -83,9 +89,13 @@ class SprinklingServiceTest {
                 .userId(userId).roomId(roomId).token(token).amount(new BigDecimal(10000)).count(10)
                 .createdAt(LocalDateTime.now())
                 .build();
+        final SprinklingAssign sprinklingAssign = new SprinklingAssign(expectUserId, new BigDecimal(10000));
         sprinklingOrder.addSprinklingAssign(new SprinklingAssign(expectUserId, new BigDecimal(10)));
         //when
         when(sprinklingOrderRepository.findByRoomIdAndToken(roomId, token)).thenReturn(Optional.of(sprinklingOrder));
+        when(sprinklingAssignRepository.findOneBySprinklingOrderAndUserIdAndStatus(any(SprinklingOrder.class), any(Integer.class),
+                any(AssignStatus.class)))
+                .thenReturn(Optional.of(sprinklingAssign));
         //then
         assertThatThrownBy(() -> sprinklingService.assignSprinkling(expectUserId, roomId, token))
                 .isInstanceOf(AlreadyAssignedException.class);

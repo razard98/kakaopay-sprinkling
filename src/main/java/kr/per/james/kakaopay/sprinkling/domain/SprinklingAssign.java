@@ -40,11 +40,7 @@ public class SprinklingAssign {
 
     @Column(name = "assigned_at")
     private LocalDateTime assignedAt;
-
-    @Version
-    @Column(name = "VERSION")
-    private int version;
-
+    
     public SprinklingAssign(final Integer userId, final BigDecimal amount) {
         this.amount = amount;
         this.userId = userId;

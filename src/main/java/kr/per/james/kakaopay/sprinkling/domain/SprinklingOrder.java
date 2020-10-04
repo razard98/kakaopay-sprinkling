@@ -51,6 +51,10 @@ public class SprinklingOrder implements Serializable {
         sprinklingAssign.setSprinklingOrder(this);
     }
 
+    public SprinklingOrder(Long orderId) {
+        this.orderId = orderId;
+    }
+
     @Builder
     private SprinklingOrder(final String token, final String roomId, final Integer userId, final BigDecimal amount,
                             final Integer count, final LocalDateTime createdAt) {
@@ -87,7 +91,6 @@ public class SprinklingOrder implements Serializable {
             throw new IllegalArgumentException("받을 사용자 수가 뿌릴 금액 보다 클 수는 없습니다.");
         }
         long initBoundAmount = getInitBoundAmount(totalAmount, count);
-        log.debug("initBoundAmount:{}", initBoundAmount);
         long[] randomAmounts = new long[count];
         for (int i = 0; i < randomAmounts.length - 1; i++) {
             randomAmounts[i] = ThreadLocalRandom.current().nextLong(1, Math.min(totalAmount, initBoundAmount));
