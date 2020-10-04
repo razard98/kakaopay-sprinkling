@@ -15,6 +15,18 @@
 
     mvn test
 
+# Specification
+* JAVA8
+* SpringBoot 2.3.3.RELEASE
+* Junit5
+* jacoco
+* JPA
+* H2 1.4.2
+
+#DB Schema
+* 1:N
+![sprinkling_diagram](https://user-images.githubusercontent.com/33849726/95013636-975b8180-067c-11eb-938b-d9e6f63cb804.png)
+
 # REST API
 
 요청한 사용자의 식별값은 숫자 행태 이며 `X-USER-ID`라는 HTTP Header로 전달합니다.

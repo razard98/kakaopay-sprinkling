@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>kr.per.james</groupId>
-    <artifactId>kakaopay-sprinkle</artifactId>
+    <artifactId>kakaopay-sprinkling</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kakaopay-sprinkle</name>
+    <name>kakaopay-sprinkling</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
