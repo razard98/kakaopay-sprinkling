@@ -67,7 +67,7 @@
 ### Response
 
     HTTP/1.1 201 Created
-    Location: /tokens/sUv
+    Location: /api/v1/sprinkling/tokens/sUv
     Content-Type: application/json
     Transfer-Encoding: chunked
     Date: Sun, 04 Oct 2020 08:28:06 GMT
