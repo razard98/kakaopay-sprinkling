@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface SprinklingAssignRepository extends JpaRepository<SprinklingAssign, Long> {
 
-    @Lock(LockModeType.PESSIMISTIC_READ)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<SprinklingAssign> findTop1BySprinklingOrderAndStatus(SprinklingOrder orderId, AssignStatus status);
 
     Optional<SprinklingAssign> findOneBySprinklingOrderAndUserIdAndStatus(SprinklingOrder orderId, Integer userId, AssignStatus status);
