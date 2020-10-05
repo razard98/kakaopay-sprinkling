@@ -34,7 +34,7 @@ public class SprinklingApiController {
         final String token = sprinklingService.orderSprinkling(userId, roomId, request.getCount(), request.getAmount());
         final SprinklingOrderDto.Response response = SprinklingOrderDto.Response.builder().token(token).build();
         final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(URI.create("/tokens/" + token));
+        httpHeaders.setLocation(URI.create("/api/v1/sprinkling/tokens/" + token));
         return new ResponseEntity<>(response, httpHeaders, HttpStatus.CREATED);
     }
 
